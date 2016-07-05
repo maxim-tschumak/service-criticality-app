@@ -1,0 +1,12 @@
+### Zuul Proxy ###
+zuul:
+  ignored-services: '*'
+  routes:
+    architectures:
+      path: /architectures/**
+      url: http://architectures.local:8001
+      stripPrefix: false
+    metrics:
+      path: /metrics/**
+      url: http://metrics.local:8002
+      stripPrefix: false

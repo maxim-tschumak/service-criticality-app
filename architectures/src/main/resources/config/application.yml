@@ -1,0 +1,18 @@
+### Spring ###
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl_auto: none
+      naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+  datasource:
+    url: jdbc:postgresql://localhost/architectures
+    username: postgres
+    password: postgres
+
+server:
+  port: 8001
+
+### Flyway ###
+flyway:
+  schemas: architecture_stacks_data

@@ -1,0 +1,25 @@
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 3px;
+}
+
+.link.depends_on {
+    stroke: black;
+}
+
+.link.communicates_with {
+    stroke: green;
+    stroke-dasharray: 0, 2 1;
+}
+
+circle {
+    fill: #4db6ac;
+    stroke: #333;
+    stroke-width: 4px;
+}
+
+text {
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+}

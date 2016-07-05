@@ -1,0 +1,21 @@
+### Spring ###
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl_auto: none
+      naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+  datasource:
+    url: jdbc:postgresql://localhost/metrics
+    username: postgres
+    password: postgres
+
+server:
+  port: 8002
+
+### Flyway ###
+flyway:
+  schemas: metrics_data
+
+### Service Criticality Services ###
+org.component.criticality.architecture-stacks.url: http://localhost:8001

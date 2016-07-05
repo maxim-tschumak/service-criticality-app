@@ -1,0 +1,128 @@
+swagger: '2.0'
+info:
+  title: Metrics API
+  description: API for Service Metrics.
+  version: "0.0.1"
+  contact:
+    name: Maxim Tschumak
+    email: maxim.tschumak@gmail.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /metrics:
+    get:
+      summary: The Metrics Endpoint returns persisted metric values.
+      parameters:
+        - name: service_id
+          in: query
+          required: false
+          type: integer
+          format: int64
+          description: Search for Metrics by service id.
+        - name: architecture_id
+          in: query
+          required: false
+          type: integer
+          format: int64
+          description: Search for Metrics by architecture id.
+      responses:
+        200:
+          description: An array of architectures
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Metric'
+  /metrics/{metric_id}:
+    get:
+      summary: Returns metric by its id.
+      parameters:
+        - name: metric_id
+          in: path
+          required: true
+          type: integer
+          format: int64
+          description: Id of the metric.
+      responses:
+        200:
+          description: Metric with the provided id.
+          schema:
+            $ref: '#/definitions/Metric'
+        404:
+          description: Metric with such id does not exist.
+    put:
+      summary: Updates existing metric value.
+      parameters:
+        - name: metric_id
+          in: path
+          required: true
+          type: integer
+          format: int64
+          description: Id of the metric.
+        - name: metric
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Metric'
+      responses:
+        200:
+          description: Metric value has been updated
+    post:
+      summary: Creates a new metric.
+      parameters:
+        - name: metric_id
+          in: path
+          required: true
+          type: integer
+          format: int64
+          description: Id of the metric.
+        - name: metric
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Metric'
+      responses:
+        201:
+          description: New metrics created
+definitions:
+  Metric:
+    description: The representation of a Software or Architecture Metric.
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Unique identifier representing a specific metric.
+      name:
+        type: string
+        description: Display name of the metric.
+      service_id:
+        type: integer
+        format: int64
+        description: Reference to service.
+      architecture_id:
+        type: integer
+        format: int64
+        description: Reference to architecture.
+      value:
+        type: number
+        format: double
+        description: Metric value.
+      normalized_value:
+        type: integer
+        format: int64
+        description: Normalized metric value.
+        minimum: 0
+        maximum: 100
+      additional_information:
+        type: string
+        description: Further information to the metric value.
+    required:
+      - name
+      - service_id
+      - architecture_id
+      - value

@@ -1,0 +1,5 @@
+### Spring ###
+spring.datasource.url: jdbc:postgresql://postgres.local/metrics
+
+### Service Criticality Services ###
+org.component.criticality.architecture-stacks.url: http://architectures.local:8001

@@ -1,0 +1,243 @@
+swagger: '2.0'
+info:
+  title: Architecture Stacks API
+  description: API for managing your architecture stacks.
+  version: "0.0.1"
+  contact:
+    name: Maxim Tschumak
+    email: maxim.tschumak@gmail.com
+basePath: /
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /architectures:
+    get:
+      summary: The Arhitecures Endpoint returns all known architectures and descriptions.
+      parameters:
+        - name: name
+          in: query
+          required: false
+          type: string
+          description: Search for Architecture with given name
+      responses:
+        200:
+          description: An array of architectures
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Architecture'
+    post:
+      summary: Creates a new Architecture stack.
+      parameters:
+        - name: architecture
+          in: body
+          schema:
+            $ref: '#/definitions/Architecture'
+          required: true
+      responses:
+        201:
+          description: Architecture created
+  /architectures/{id}:
+    get:
+      summary: Finds architecture by its Id.
+      parameters:
+        - name: id
+          in: path
+          description: Id of Architecture to fetch.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: Architecture
+          schema:
+            $ref: '#/definitions/Architecture'
+        404:
+          description: No Architecture with provided Id.
+    delete:
+      summary: Deletes an architecture.
+      parameters:
+        - name: id
+          in: path
+          description: Id of Architecture to delete.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Architecture has been deleted succesfully.
+        404:
+          description: No Architecture with provided Id.
+  /architectures/{architecture_id}/services:
+    get:
+      summary: The Services Endpoint return architecture's all known services and descriptions.
+      parameters:
+        - name: architecture_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+          description: Search for services by architecture id.
+      responses:
+        200:
+          description: Array of services
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Service'
+    post:
+      summary: Creates a new service within the architecture.
+      parameters:
+        - name: architecture_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: service
+          in: body
+          schema:
+            $ref: '#/definitions/Service'
+          required: true
+      responses:
+        201:
+          description: Architecture created
+  /architectures/{architecture_id}/services/{service_id}:
+    delete:
+      summary: Deletes a service within a architecture stack by its id.
+      parameters:
+        - name: architecture_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: service_id
+          in: path
+          description: Id of Service to delete.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Service has been deleted succesfully.
+        404:
+          description: No Service with provided Id.
+  /architectures/{architecture_id}/services/{service_id}/dependencies:
+    get:
+      summary: The Services Endpoint return service's dependencies.
+      parameters:
+        - name: architecture_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: service_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+      responses:
+        200:
+          description: Array of dependencies.
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+  /architectures/{architecture_id}/services/{service_id}/dependencies/{depends_on_service_id}:
+    post:
+      summary: Creates a new Dependency.
+      parameters:
+        - name: depends_on_service_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: service_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: architecture_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+      responses:
+        201:
+          description: Dependency created.
+    delete:
+      summary: Deletes a dependency.
+      parameters:
+        - name: architecture_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: service_id
+          in: path
+          type: integer
+          format: int64
+          required: true
+        - name: depends_on_service_id
+          in: path
+          description: Service Id of Dependency to delete.
+          required: true
+          type: integer
+          format: int64
+      responses:
+        204:
+          description: Dependency has been deleted succesfully.
+        404:
+          description: No Dependency with provided Id.
+definitions:
+  Architecture:
+    description: The representation of an Architecture.
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Unique identifier representing a specific architecture stack.
+      name:
+        type: string
+        description: Display name of architecture.
+      description:
+        type: string
+        description: Description of architecture.
+      services:
+        type: array
+        items:
+          $ref: '#/definitions/Service'
+        description: Services within architecture stack.
+    required:
+      - name
+  Service:
+    description: The representation of a Service.
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+        description: Unique identifier representing a specific service within an architecture.
+      architecture_id:
+        type: integer
+        format: int64
+      name:
+        type: string
+        description: Display name of service.
+      description:
+        type: string
+        description: Description of service.
+      dependencies:
+        description: Set of Service's Dependencies.
+        type: array
+        items:
+          type: integer
+          format: int64
+    required:
+      - architecture_id
+      - name

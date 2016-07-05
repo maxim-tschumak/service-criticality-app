@@ -1,0 +1,7 @@
+**/.idea/
+**/target/
+*.iml
+**/node/
+**/built/
+**/node_modules/
+**/fonts/

@@ -1,0 +1,2 @@
+### Spring ###
+spring.datasource.url: jdbc:postgresql://postgres.local/architectures

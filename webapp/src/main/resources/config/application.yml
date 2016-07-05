@@ -1,0 +1,16 @@
+### Spring ###
+server:
+  port: 8080
+
+### Zuul Proxy ###
+zuul:
+  ignored-services: '*'
+  routes:
+    architectures:
+      path: /architectures/**
+      url: http://localhost:8001
+      stripPrefix: false
+    metrics:
+      path: /metrics/**
+      url: http://localhost:8002
+      stripPrefix: false
