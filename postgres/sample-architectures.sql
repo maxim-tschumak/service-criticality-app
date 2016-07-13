@@ -243,17 +243,17 @@ COPY service (id, name, description, architecture_id) FROM stdin;
 5	service-a	Service A	3
 6	service-b	Service B	3
 7	service-c	Service C	3
-8	ismt	ISMT Tool	4
+8	ismt-tool	ISMT Tool	4
 9	block-orders-frontend	Frontend for Block Orders	4
 10	user-authorization	User Authorization Service	4
-11	pom-service	Purchase Order Management Service	4
+11	pom	Purchase Order Management Service	4
 12	ismt-gateway	ISMT Gateway	4
 13	bi	Business Intelligence	4
 14	block-orders-gateway	Block Orders Gateway	4
 15	user-service	User Service	4
 19	master-data	Master Data Service	4
-18	buying-articles-service	Buying Articles Service	4
-17	block-orders-call-offs	Block Orders and Call Offs Service	4
+18	buying-articles	Buying Articles Service	4
+17	block-orders	Block Orders and Call Offs Service	4
 20	purchasing-backend	Purchasing Backend aka Monolith	4
 22	metrics	Metrics Service	5
 23	front-end	Front-End for the Framework	5

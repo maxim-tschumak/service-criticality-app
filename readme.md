@@ -71,3 +71,7 @@ If your docker host is not your localhost (e.g. MacOS), replace localhost in the
 ```bash
 docker-machine ip ${machine_name}
 ```
+
+## Evaluation of the Results
+To compare the results of the Service Criticality App and facts (bug database or experts opinion) _evaluation-tool_ can be used.
+This tool calculates correlations between the data sets.
