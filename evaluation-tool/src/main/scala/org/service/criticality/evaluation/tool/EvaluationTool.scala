@@ -8,7 +8,7 @@ object EvaluationTool {
     opt[File]("survey-results").abbr("s").action((s, c) => c.copy(survey = s)).text("survey results in CSV format")
     opt[File]("framework-results").abbr("f").action((f, c) => c.copy(framework = f)).text("framework results in CSV format")
     opt[String]("correlation-type").abbr("c").action((t, c) => c.copy(correlation = t)).text("correlation type (spearman|pearson)")
-    opt[Seq[String]]("exclude").abbr("e").action((e, c) => c.copy(exclude = e.toList)).text("services to exclude from evaluation")
+    opt[Seq[String]]("exclude").abbr("e").action((e, c) => c.copy(exclude = e)).text("services to exclude from evaluation")
     checkConfig(config =>
       if (!config.valid) failure("please check the parameters")
       else success
