@@ -1,7 +1,7 @@
 # Evaluation Tool
 Tool for evaluation of Service Criticality Application's results.
 
-The calculated be the Service Criticality App results are compared to the 'facts'.
+The calculated by the Service Criticality App results are compared to the 'facts'.
 Facts can be either a bug database or expert opinions.
 The Bug database need to contain the number of occurred problems per service in some time frame.
 The Survey consists of experts' judgments of the services, in regard to their criticality.
