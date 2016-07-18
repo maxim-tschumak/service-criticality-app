@@ -27,7 +27,7 @@ Effective Size  | Number of independent subnetworks the service is connected to
 ## Components
 The application consists of 3 services based on Spring Boot.
 PostgreSQL RDBMS is used to persist the data.
-The front end application is build using React and D3.
+The front end application is built using React and D3.
 
 ### Architectures
 Architecture service is responsible for architecture management.
