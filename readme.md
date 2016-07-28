@@ -1,11 +1,11 @@
 # Service Criticality Framework
-The goal of this framework is to find the most critical components within distributed system.
+The goal of this framework is to find the most critical components within a distributed system. Those components are expected to cause problems with regards to maintainability.
 
 The component (service) analysis is based on different metrics.
 These represent different aspects of service criticality.
 
 ## The Approach
-All the metrics calculated internally are based on the dependency graph.
+The system calculates all metrics based on the dependency graph.
 But it is also possible to import externally calculated metrics (e.g. LoC, Test Coverage, Complexity).
 The Framework will calculate some metrics from graph theory and network analysis.
 Along with external metrics, they will be normalized and aggregated to build a ranking of the services in regard to their criticality.
