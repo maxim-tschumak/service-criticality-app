@@ -54,9 +54,8 @@ In order to run the application on your local machine, you have to build the pro
 * Docker Compose 1.7.1+
 
 ### Build
-First, you have to build *architectures*, *metrics* and *webapp* components. Therefore run:
-```bash
-cd [architectures|metrics|webapp] && mvn clean package
+First, you have to build the components. Therefore run:
+```mvn clean package
 ```
 
 ### Start the whole stack
