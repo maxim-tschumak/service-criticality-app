@@ -1,14 +1,28 @@
 # Service Criticality Framework
-The goal of this framework is to find the most critical components within a distributed system. Those components are expected to cause problems with regards to maintainability.
+The goal of this framework is to find the most critical components and design issues within a distributed system.
 
 The component (service) analysis is based on different metrics.
 These represent different aspects of service criticality.
+Criticality, in this case, is defined as probability of a failure and its impact on the whole system.
+Components with high criticality are mission/business critical and deserve special treatment.
+Another interpretation of high criticality is bad architectural design around the component, which has to be improved.
+
+Service Criticality Tool visualizes dependency relationships within a distributed system.
+It identifies possible design issues on architectural level.
+And builds a service criticality ranking based on software and architecture metrics.
+This tool can help software engineers and architects by providing a basis for white box architecture analysis.
 
 ## The Approach
-The system calculates all metrics based on the dependency graph.
-But it is also possible to import externally calculated metrics (e.g. LoC, Test Coverage, Complexity).
-The Framework will calculate some metrics from graph theory and network analysis.
-Along with external metrics, they will be normalized and aggregated to build a ranking of the services in regard to their criticality.
+A distinction is made between software and architecture metrics.
+
+Software metrics are calculated externally and can be imported into the tool.
+Reasonable software metrics are: Lines-of-Code, Test Coverage, Complexity, etc.
+
+Architecture metrics are based on the dependency graph.
+There are some metrics and properties from graph theory and network analysis.
+All of them are calculated internally.
+
+Along with external metrics, they get normalized and aggregated to build a ranking of the services in regard to their criticality.
 
 ## Metrics
 These metrics are calculated by the application based on the dependency graph.
@@ -18,11 +32,11 @@ Metric          | Description
 --------------- | -------------
 Degree          | Number of direct communication partners of the given service
 Out-Degree      | Number of direct dependencies of the given service
-In-Degree       | Number of services wich depend directly on the given one
+In-Degree       | Number of services which depend directly on the given one
 Constraint      | Order of constraint of dependency relations
 Cycles          | Circular dependencies
 Katz-Centrality | Importance of the service as a dependency on the big scale (transitive dependency)
-Effective Size  | Number of independent subnetworks the service is connected to
+Effective Size  | Number of independent sub networks the service is connected to
 
 ## Components
 The application consists of 3 services based on Spring Boot.
@@ -55,7 +69,8 @@ In order to run the application on your local machine, you have to build the pro
 
 ### Build
 First, you have to build the components. Therefore run:
-```mvn clean package
+```bash
+mvn clean package
 ```
 
 ### Start the whole stack
@@ -71,6 +86,86 @@ If your docker host is not your localhost (e.g. MacOS), replace localhost in the
 docker-machine ip ${machine_name}
 ```
 
+## Usage
+First, we create a new architecture (meta information about a distributed system):
+```bash
+curl -X POST
+     -H "Content-Type: application/json"
+     -d ’{
+            "name" : "service-criticality-framework",
+            "description" : "Framework for Service Criticality Calculations"
+         }’
+     ${base_url}/architectures
+```
+And add some components to the architecture:
+```bash
+curl -X POST
+     -H "Content-Type: application/json"
+     -d '{
+           "name": "metrics",
+           "description": "Metrics Service"
+         }'
+     ${base_url}/architectures/${architecture_id}/services
+```
+```bash
+curl -X POST
+     -H "Content-Type: application/json"
+     -d '{
+           "name": "arch-stacks",
+           "description": "Architecture Stacks Service"
+         }'
+     ${base_url}/architectures/${architecture_id}/services
+```
+Next, we define dependency relationships between the services:
+```bash
+curl -X POST ${base_url}/architectures/${architecture_id}
+        /services/${service_id}
+        /dependencies/${depends_on_service_id}
+```
+We can check created architecture by calling the architectures endpoint:
+```bash
+curl -X GET ${base_url}/architectures/${architecture_id}
+```
+
+(Optional) we can add some metrics which were calculated externally:
+```bash
+curl -X POST
+     -H "Content-Type: application/json"
+     -d '{
+           "name": "test-coverage",
+           "architectureId": ${architecture_id},
+           "serviceId": ${service_id},
+           "value": 0.85
+         }'
+     ${base_url}/metrics/
+```
+
+Now, Service Criticality Application will calculate all the defined metrics.
+The metric values will be normalized and aggregated afterwords.
+Finally, dependency graph visualisation, metrics and service ranking is available in the web application.
+
 ## Evaluation of the Results
-To compare the results of the Service Criticality App and facts (bug database or experts opinion) _evaluation-tool_ can be used.
+To compare the results of the Service Criticality App to facts (bug database or experts opinion), _evaluation-tool_ can be used.
 This tool calculates correlations between the data sets.
+
+## License
+The MIT License (MIT)
+Copyright © 2016 Maxim Tschumak, maxim.tschumak@gmail.com
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
